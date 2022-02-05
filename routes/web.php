@@ -1,18 +1,22 @@
 <?php
 
+use App\Http\Controllers\TwitchOauthCallbackController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('landing');
+
+Route::get('/auth/twitch/redirect', function () {
+    return Socialite::driver('twitch')->redirect();
+})->name('oauth.twitch.redirect');
+
+Route::get('/auth/twitch/callback', TwitchOauthCallbackController::class)->name('oauth.twitch.callback');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return response(Auth::user()->toArray());
+    })->name('dashboard');
 });
