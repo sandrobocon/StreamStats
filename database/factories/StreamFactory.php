@@ -13,6 +13,7 @@ class StreamFactory extends Factory
     public function definition()
     {
         return [
+            'id'            => $this->faker->unique()->randomNumber(8),
             'game_id'       => Game::factory(),
             'user_id'       => $this->faker->randomNumber(8),
             'user_login'    => $this->faker->userName(),
