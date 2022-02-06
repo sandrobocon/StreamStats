@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\TwitchOauthCallbackController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return response(Auth::user()->toArray());
     })->name('dashboard');
+
+    Route::post('/logout', LogoutController::class)
+        ->name('logout');
 });
