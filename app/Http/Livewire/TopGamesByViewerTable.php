@@ -14,6 +14,10 @@ final class TopGamesByViewerTable extends PowerGridComponent
 {
     use ActionButton;
 
+    public string $sortField = 'streams_sum_viewer_count';
+
+    public string $sortDirection = 'desc';
+
     public function setUp(): void
     {
         $this->showPerPage();
@@ -24,8 +28,7 @@ final class TopGamesByViewerTable extends PowerGridComponent
         return Game::query()
             ->withCount('streams')
             ->withSum('streams', 'viewer_count')
-            ->withAvg('streams', 'viewer_count')
-            ->orderByDesc('streams_sum_viewer_count');
+            ->withAvg('streams', 'viewer_count');
     }
 
     public function addColumns(): ?PowerGridEloquent
@@ -56,15 +59,18 @@ final class TopGamesByViewerTable extends PowerGridComponent
 
             Column::add()
                 ->title('Viewers')
-                ->field('streams_sum_viewer_count'),
+                ->field('streams_sum_viewer_count')
+                ->sortable(),
 
             Column::add()
                 ->title('Streams')
-                ->field('streams_count'),
+                ->field('streams_count')
+                ->sortable(),
 
             Column::add()
                 ->title('Avg Viewers per Stream')
-                ->field('streams_avg_viewer_count'),
+                ->field('streams_avg_viewer_count')
+                ->sortable(),
         ];
     }
 }

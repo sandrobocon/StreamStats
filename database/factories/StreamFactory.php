@@ -12,13 +12,18 @@ class StreamFactory extends Factory
 
     public function definition()
     {
+        if (Game::query()->count() < 5) {
+            Game::factory()->create();
+        }
+        $game = Game::query()->get()->random();
+
         return [
             'id'            => $this->faker->unique()->randomNumber(8),
-            'game_id'       => Game::factory(),
+            'game_id'       => $game->id,
             'user_id'       => $this->faker->randomNumber(8),
             'user_login'    => $this->faker->userName(),
             'user_name'     => $this->faker->userName(),
-            'game_name'     => $this->faker->name(),
+            'game_name'     => $game->name,
             'title'         => $this->faker->word(),
             'viewer_count'  => $this->faker->randomNumber(),
             'started_at'    => $this->faker->dateTimeThisYear(),
