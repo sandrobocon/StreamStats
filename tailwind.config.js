@@ -1,15 +1,27 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
-    purge: [
-        './resources/**/*.blade.php',
-        './resources/**/*.js',
+    presets: [
+        require('./vendor/wireui/wireui/tailwind.config.js')
     ],
     content: [
-        "./resources/**/*.blade.php",
-        "./resources/**/*.js",
-        "./resources/**/*.vue",
+        './vendor/wireui/wireui/resources/**/*.blade.php',
+        './vendor/wireui/wireui/ts/**/*.ts',
+        './vendor/wireui/wireui/src/View/**/*.php',
+        './resources/**/*.blade.php',
+        './resources/**/*.js',
+        './resources/**/*.vue'
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                primary: colors.purple,
+            },
+        },
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/typography'),
+        require('@tailwindcss/aspect-ratio'),
+    ],
 }
