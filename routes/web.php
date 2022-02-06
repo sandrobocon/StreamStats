@@ -2,13 +2,11 @@
 
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\TwitchOauthCallbackController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('landing');
+Route::get('/', Welcome::class)->name('landing');
 
 Route::get('/auth/twitch/redirect', function () {
     return Socialite::driver('twitch')->redirect();
@@ -21,6 +19,5 @@ Route::middleware('auth')->group(function () {
         return response(Auth::user()->toArray());
     })->name('dashboard');
 
-    Route::post('/logout', LogoutController::class)
-        ->name('logout');
+    Route::post('/logout', LogoutController::class)->name('logout');
 });
