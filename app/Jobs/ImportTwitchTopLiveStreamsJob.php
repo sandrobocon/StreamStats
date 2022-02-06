@@ -55,32 +55,15 @@ class ImportTwitchTopLiveStreamsJob implements ShouldQueue
 
                     $tags = [];
                     if ($stream->tag_ids) {
-                        foreach ($stream->tag_ids as $tag_id) {
+                        foreach ($stream->tag_ids as $tagId) {
                             $tag = Tag::firstOrCreate([
-                                'tag_id' => $tag_id,
+                                'tag_id' => $tagId,
                             ]);
                             $tags[] = $tag->id;
                         }
                     }
 
-                    Stream::query()->updateOrCreate([
-                        'id' => $stream->id,
-                    ], [
-                        'game_id'       => $stream->game_id ?: null,
-                        'user_id'       => $this->shuffle ? $this->faker()->randomNumber(8) : $stream->user_id,
-                        'user_login'    => $this->shuffle ? $this->faker()->slug(2) : $stream->user_login,
-                        'user_name'     => $this->shuffle ? $this->faker()->slug(2) : $stream->user_name,
-                        'game_name'     => $stream->game_name,
-                        'title'         => $this->shuffle ? $this->faker()->words(3, true) : $stream->title,
-                        'viewer_count'  => $stream->viewer_count,
-                        'started_at'    => Carbon::createFromFormat('Y-m-d\TH:i:s\Z', $stream->started_at),
-                        'language'      => $stream->language,
-                        'thumbnail_url' => $this->shuffle
-                            ? Str::replace($stream->user_login, Str::random(6), $stream->thumbnail_url)
-                            : $stream->thumbnail_url,
-                    ]);
-
-                    Stream::find($stream->id)->tags()->sync($tags);
+                    $this->updateOrCreateShuffledStream($stream, $tags);
                 }
 
                 if (!$result->hasMoreResults()) {
@@ -88,5 +71,30 @@ class ImportTwitchTopLiveStreamsJob implements ShouldQueue
                 }
             } while (Stream::query()->count() < $this->quantity && $trys++ < 15);
         });
+    }
+
+    private function updateOrCreateShuffledStream(object $stream, array $tags): Stream
+    {
+        Stream::query()->updateOrCreate([
+            'id' => $stream->id,
+        ], [
+            'game_id'       => $stream->game_id ?: null,
+            'user_id'       => $this->shuffle ? $this->faker()->randomNumber(8) : $stream->user_id,
+            'user_login'    => $this->shuffle ? $this->faker()->slug(2) : $stream->user_login,
+            'user_name'     => $this->shuffle ? $this->faker()->slug(2) : $stream->user_name,
+            'game_name'     => $stream->game_name,
+            'title'         => $this->shuffle ? $this->faker()->words(3, true) : $stream->title,
+            'viewer_count'  => $stream->viewer_count,
+            'started_at'    => Carbon::createFromFormat('Y-m-d\TH:i:s\Z', $stream->started_at),
+            'language'      => $stream->language,
+            'thumbnail_url' => $this->shuffle
+                ? Str::replace($stream->user_login, Str::random(6), $stream->thumbnail_url)
+                : $stream->thumbnail_url,
+        ]);
+
+        $stream = Stream::find($stream->id);
+        $stream->tags()->sync($tags);
+
+        return $stream;
     }
 }
