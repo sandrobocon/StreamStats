@@ -17,6 +17,7 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @livewireStyles
+    @powerGridStyles
 </head>
 <body x-data="{}">
 <div>
@@ -34,5 +35,6 @@
 @wireUiScripts
 <script src="{{ mix('js/app.js') }}" defer></script>
 @livewireScripts
+@powerGridScripts
 </body>
 </html>

@@ -10,7 +10,10 @@ module.exports = {
         './vendor/wireui/wireui/src/View/**/*.php',
         './resources/**/*.blade.php',
         './resources/**/*.js',
-        './resources/**/*.vue'
+        './resources/**/*.vue',
+        './app/Http/Livewire/**/*Table.php',
+        './vendor/power-components/livewire-powergrid/resources/views/**/*.php',
+        './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php'
     ],
     theme: {
         extend: {
@@ -20,7 +23,9 @@ module.exports = {
         },
     },
     plugins: [
-        require('@tailwindcss/forms'),
+        require("@tailwindcss/forms")({
+            strategy: 'class',
+        }),
         require('@tailwindcss/typography'),
         require('@tailwindcss/aspect-ratio'),
     ],
