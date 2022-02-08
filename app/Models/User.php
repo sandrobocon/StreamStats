@@ -60,6 +60,7 @@ class User extends Authenticatable
         'email',
         'password',
         'twitch_id',
+        'twitch_token',
     ];
 
     /**

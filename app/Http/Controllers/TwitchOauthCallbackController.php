@@ -17,10 +17,17 @@ class TwitchOauthCallbackController extends Controller
 
         if (!$user) {
             $user = User::create([
-                'twitch_id' => $twitchUser->id,
-                'name'      => $twitchUser->name,
-                'email'     => $twitchUser->email,
-                'password'  => Str::random(),
+                'twitch_id'    => $twitchUser->id,
+                'twitch_token' => $twitchUser->token,
+                'name'         => $twitchUser->name,
+                'email'        => $twitchUser->email,
+                'password'     => Str::random(),
+            ]);
+        } else {
+            $user->update([
+                'twitch_token' => $twitchUser->token,
+                'name'         => $twitchUser->name,
+                'email'        => $twitchUser->email,
             ]);
         }
 

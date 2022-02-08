@@ -8,7 +8,6 @@ Simple web application using Oauth through Twitch for showing user's streaming f
 |----------------------|-----------------------------|
 | TWITCH_CLIENT_ID     | Get From Twitch API account |
 | TWITCH_CLIENT_SECRET | Get From Twitch API account |
-| TWITCH_REDIRECT_URI  | '/auth/twitch/callback'     |
 
 ## License
 

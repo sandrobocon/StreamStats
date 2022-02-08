@@ -33,6 +33,7 @@ return [
     'twitch' => [
         'client_id'     => env('TWITCH_CLIENT_ID'),
         'client_secret' => env('TWITCH_CLIENT_SECRET'),
-        'redirect'      => env('TWITCH_REDIRECT_URI', '/auth/twitch/callback')
+        'redirect'      => env('TWITCH_REDIRECT_URI', '/auth/twitch/callback'),
+        'scopes'        => env('TWITCH_SCOPES', ['user:read:email', 'user:read:follows']),
     ],
 ];
