@@ -11,15 +11,13 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridEloquent;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 
-final class TopFollowingStreamsForUserTable extends PowerGridComponent
+final class StreamDistanceToBeOnTopTable extends PowerGridComponent
 {
     use ActionButton;
 
-    public string $sortField = 'viewer_count';
-
-    public string $sortDirection = 'desc';
-
     public User $user;
+
+    public int $topList = 1000;
 
     public $listeners = [
         'updatedFollowedStreams' => 'updateData',
@@ -31,15 +29,27 @@ final class TopFollowingStreamsForUserTable extends PowerGridComponent
         $this->fillData();
     }
 
+    public function datasource(): ?Collection
+    {
+        $lessViewers = Stream::cachedTop1000()->min('viewer_count');
+
+        $lastStream = $this->user->followedStreams->sortByDesc('viewer_count')->last();
+
+        if (!$lastStream) {
+            return collect([]);
+        }
+
+        $lastStream->quantity_distance_to_top = $lessViewers - $lastStream->viewer_count;
+        if ($lastStream->quantity_distance_to_top < 0) {
+            $lastStream->quantity_distance_to_top = 0;
+        }
+
+        return collect([$lastStream]);
+    }
+
     public function setUp(): void
     {
         $this->showPerPage();
-    }
-
-    public function datasource(): ?Collection
-    {
-        return Stream::cachedTop1000()
-            ->whereIn('id', $this->user->followedStreams->pluck('id')->toArray());
     }
 
     public function addColumns(): ?PowerGridEloquent
@@ -47,14 +57,14 @@ final class TopFollowingStreamsForUserTable extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('user_name')
             ->addColumn('title')
-            ->addColumn('viewer_count');
+            ->addColumn('quantity_distance_to_top');
     }
 
     /**
-     * PowerGrid Columns.
-     *
-     * @return array<int, Column>
-     */
+    * PowerGrid Columns.
+    *
+    * @return array<int, Column>
+    */
     public function columns(): array
     {
         return [
@@ -67,9 +77,8 @@ final class TopFollowingStreamsForUserTable extends PowerGridComponent
                 ->field('title'),
 
             Column::add()
-                ->title('Viewers')
-                ->field('viewer_count')
-                ->sortable()
+                ->title('Need more Viewers')
+                ->field('quantity_distance_to_top')
         ];
     }
 }
