@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\StreamFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -30,6 +31,9 @@ use Illuminate\Support\Carbon;
  * @property-read Game $game
  * @property-read Collection|Tag[] $tags
  * @property-read int|null $tags_count
+ * @property-read Collection|User[] $usersFollowed
+ * @property-read int|null $users_followed_count
+ * @method static StreamFactory factory(...$parameters)
  * @method static Builder|Stream newModelQuery()
  * @method static Builder|Stream newQuery()
  * @method static Builder|Stream query()
@@ -47,7 +51,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Stream whereUserName($value)
  * @method static Builder|Stream whereViewerCount($value)
  * @mixin Eloquent
- * @property mixed $0
  */
 class Stream extends Model
 {

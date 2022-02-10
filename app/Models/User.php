@@ -26,8 +26,11 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
+ * @property string|null $twitch_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Collection|Stream[] $followedStreams
+ * @property-read int|null $followed_streams_count
  * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection|PersonalAccessToken[] $tokens
@@ -45,6 +48,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereTwitchId($value)
  * @method static Builder|User whereUpdatedAt($value)
+ * @method static Builder|User whereTwitchToken($value)
  * @mixin Eloquent
  */
 class User extends Authenticatable
@@ -94,7 +98,7 @@ class User extends Authenticatable
         if ($justUpdated) {
             $now = now();
             cache()->tags($tagName)->put($cacheName, $now);
-            
+
             return $now;
         }
 

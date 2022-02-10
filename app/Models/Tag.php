@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\TagFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -22,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $descriptions_count
  * @property-read Collection|Stream[] $streams
  * @property-read int|null $streams_count
+ * @method static TagFactory factory(...$parameters)
  * @method static Builder|Tag newModelQuery()
  * @method static Builder|Tag newQuery()
  * @method static Builder|Tag query()

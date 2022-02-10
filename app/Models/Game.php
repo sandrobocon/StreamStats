@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\GameFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,6 +21,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Collection|Stream[] $streams
  * @property-read int|null $streams_count
+ * @method static GameFactory factory(...$parameters)
  * @method static Builder|Game newModelQuery()
  * @method static Builder|Game newQuery()
  * @method static Builder|Game query()
