@@ -26,9 +26,9 @@ class UpdateOrCreateStreamFromApiData
 
         $tags = [];
         if ($stream->tag_ids) {
-            foreach ($stream->tag_ids as $tagId) {
+            foreach ($stream->tag_ids as $tagUuid) {
                 $tag = Tag::firstOrCreate([
-                    'tag_id' => $tagId,
+                    'tag_uuid' => $tagUuid,
                 ]);
                 $tags[] = $tag->id;
             }

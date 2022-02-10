@@ -16,7 +16,7 @@ use Illuminate\Support\Carbon;
  * App\Models\Tag
  *
  * @property int $id
- * @property string $tag_id
+ * @property string $tag_uuid
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection|TagDescription[] $descriptions
@@ -38,7 +38,7 @@ class Tag extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tag_id',
+        'tag_uuid',
     ];
 
     public function streams(): BelongsToMany
