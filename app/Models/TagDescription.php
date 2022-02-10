@@ -12,10 +12,10 @@ use Illuminate\Support\Carbon;
  * App\Models\TagDescription
  *
  * @property int $id
- * @property int $tag_id
+ * @property int $tag_uuid
  * @property string $localization
- * @property string $localization_name
- * @property string $localization_descriptions
+ * @property string name
+ * @property string descriptions
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Tag $tag
@@ -36,8 +36,8 @@ class TagDescription extends Model
     protected $fillable = [
         'tag_id',
         'localization',
-        'localization_name',
-        'localization_descriptions',
+        'name',
+        'description',
     ];
 
     public function tag(): BelongsTo
