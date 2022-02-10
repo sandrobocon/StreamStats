@@ -7,6 +7,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -81,4 +82,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function followedStreams(): BelongsToMany
+    {
+        return $this->belongsToMany(Stream::class, 'user_following_stream');
+    }
+
+    public function lastImport(string $cacheName, bool $justUpdated = false): Carbon
+    {
+        $tagName = 'user.' . $this->id . '.lastImport';
+        if ($justUpdated) {
+            $now = now();
+            cache()->tags($tagName)->put($cacheName, $now);
+            
+            return $now;
+        }
+
+        return cache()->tags($tagName)->rememberForever($cacheName, function () {
+            return Carbon::createFromDate(2000, 01, 01);
+        });
+    }
 }

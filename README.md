@@ -4,10 +4,11 @@ Simple web application using Oauth through Twitch for showing user's streaming f
 
 ## Configurations
 
-| Parameter            | Info                        |
-|----------------------|-----------------------------|
-| TWITCH_CLIENT_ID     | Get From Twitch API account |
-| TWITCH_CLIENT_SECRET | Get From Twitch API account |
+| Parameter            | Type    | Default | Info                          |
+|----------------------|---------|------|-------------------------------|
+| TWITCH_CLIENT_ID     | string  | null | Get From Twitch API account   |
+| TWITCH_CLIENT_SECRET | string  | null | Get From Twitch API account   |
+| SHUFFLE_STREAMS      | boolean | true | Shuffle stream data on import |
 
 ## License
 

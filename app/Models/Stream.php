@@ -78,6 +78,23 @@ class Stream extends Model
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class)->with(TagDescription::class);
+        return $this->belongsToMany(Tag::class)->with('descriptions');
+    }
+
+    public function usersFollowed(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_following_stream');
+    }
+
+    public static function cachedTop1000(): Collection
+    {
+        return cache()->tags('streams')
+            ->remember('top1000', now()->addMinutes(20), function () {
+                return Stream::query()
+                    ->with('tags')
+                    ->orderByDesc('viewer_count')
+                    ->limit(1000)
+                    ->get();
+            });
     }
 }
