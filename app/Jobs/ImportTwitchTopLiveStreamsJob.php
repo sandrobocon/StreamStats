@@ -36,6 +36,7 @@ class ImportTwitchTopLiveStreamsJob implements ShouldQueue
     public function handle()
     {
         DB::transaction(function () {
+            Stream::lastImport('cachedTop1000', true);
             $trys = 0;
             do {
                 $result = Twitch::getStreams([

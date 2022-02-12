@@ -26,6 +26,7 @@ final class TopStreamsByViewersTable extends PowerGridComponent
     public function datasource(): ?Builder
     {
         return Stream::query()
+            ->where('updated_at', '>=', Stream::lastImport('cachedTop1000'))
             ->limit(100);
     }
 
