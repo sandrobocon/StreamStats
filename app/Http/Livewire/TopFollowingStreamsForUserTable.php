@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Stream;
 use App\Models\User;
+use App\Traits\PowerGridTables\UpdatedFollowedStreams;
 use Illuminate\Support\Collection;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
@@ -13,23 +14,13 @@ use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 
 final class TopFollowingStreamsForUserTable extends PowerGridComponent
 {
-    use ActionButton;
+    use ActionButton, UpdatedFollowedStreams;
 
     public string $sortField = 'viewer_count';
 
     public string $sortDirection = 'desc';
 
     public User $user;
-
-    public $listeners = [
-        'updatedFollowedStreams' => 'updateData',
-    ];
-
-    public function updateData()
-    {
-        $this->user->refresh();
-        $this->fillData();
-    }
 
     public function setUp(): void
     {

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Stream;
 use App\Models\User;
+use App\Traits\PowerGridTables\UpdatedFollowedStreams;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -14,7 +15,7 @@ use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 
 final class SharedTagsWithTopStreamsTable extends PowerGridComponent
 {
-    use ActionButton;
+    use ActionButton, UpdatedFollowedStreams;
 
     public User $user;
 

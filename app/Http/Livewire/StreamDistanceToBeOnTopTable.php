@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Stream;
 use App\Models\User;
+use App\Traits\PowerGridTables\UpdatedFollowedStreams;
 use Illuminate\Support\Collection;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
@@ -13,21 +14,11 @@ use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 
 final class StreamDistanceToBeOnTopTable extends PowerGridComponent
 {
-    use ActionButton;
+    use ActionButton, UpdatedFollowedStreams;
 
     public User $user;
 
     public int $topList = 1000;
-
-    public $listeners = [
-        'updatedFollowedStreams' => 'updateData',
-    ];
-
-    public function updateData()
-    {
-        $this->user->refresh();
-        $this->fillData();
-    }
 
     public function datasource(): ?Collection
     {
