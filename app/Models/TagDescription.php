@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Database\Factories\TagFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -12,13 +14,14 @@ use Illuminate\Support\Carbon;
  * App\Models\TagDescription
  *
  * @property int $id
- * @property int $tag_uuid
+ * @property int $tag_id
  * @property string $localization
  * @property string name
- * @property string descriptions
+ * @property string description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Tag $tag
+ * @method static TagFactory factory(...$parameters)
  * @method static Builder|TagDescription newModelQuery()
  * @method static Builder|TagDescription newQuery()
  * @method static Builder|TagDescription query()
@@ -33,6 +36,8 @@ use Illuminate\Support\Carbon;
  */
 class TagDescription extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'tag_id',
         'localization',

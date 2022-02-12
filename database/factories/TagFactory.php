@@ -12,7 +12,7 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            'tag_id' => $this->faker->unique()->uuid,
+            'tag_uuid' => $this->faker->unique()->uuid(),
         ];
     }
 }
