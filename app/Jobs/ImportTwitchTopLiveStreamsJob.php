@@ -21,6 +21,7 @@ class ImportTwitchTopLiveStreamsJob implements ShouldQueue
 
     private int $quantity;
     private bool $shuffle;
+    private array $importedStreamIds = [];
 
     public function __construct(int $quantity = 1000, bool $shuffle = true)
     {
@@ -42,13 +43,12 @@ class ImportTwitchTopLiveStreamsJob implements ShouldQueue
                 ], isset($result) ? $result->next() : null);
 
                 foreach ($result->data() as $stream) {
-                    UpdateOrCreateStreamFromApiData::execute($stream);
+                    $stream = UpdateOrCreateStreamFromApiData::execute($stream);
+                    $this->importedStreamIds[] = $stream->id;
                 }
 
-                if (!$result->hasMoreResults()) {
-                    break;
-                }
-            } while (Stream::query()->count() < $this->quantity && $trys++ < 15);
+                $this->importedStreamIds = array_unique($this->importedStreamIds);
+            } while ($result->hasMoreResults() && count($this->importedStreamIds) < $this->quantity && $trys++ < 15);
         });
 
         $tags = Tag::query()->select(['id', 'tag_uuid'])->get();
@@ -57,5 +57,6 @@ class ImportTwitchTopLiveStreamsJob implements ShouldQueue
         });
 
         cache()->tags('streams')->flush();
+        Stream::cachedTop1000();
     }
 }
