@@ -20,6 +20,7 @@ class Dashboard extends Component
     {
         if ($this->user->lastImport('followedStreams') < now()->subMinutes(15)) {
             ImportTwitchStreamsUserIsFollowingJob::dispatchSync($this->user);
+            $this->user->refresh();
             $this->emit('updatedFollowedStreams');
         }
     }
