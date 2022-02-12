@@ -93,6 +93,8 @@ class Stream extends Model
     {
         return cache()->tags('streams')
             ->remember('top1000', now()->addMinutes(20), function () {
+                self::lastImport('cachedTop1000', true);
+
                 return Stream::query()
                     ->with('tags')
                     ->where('updated_at', '>', now()->subMinutes(15))
