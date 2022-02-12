@@ -19,5 +19,9 @@
         <x-card title="How Distance to be on Top 1000">
             <livewire:stream-distance-to-be-on-top-table :user="$user"/>
         </x-card>
+
+        <x-card title="Your Shared Tags with Top 1000 Streams">
+            <livewire:shared-tags-with-top-streams-table :user="$user"/>
+        </x-card>
     </div>
 </div>
