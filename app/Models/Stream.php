@@ -93,11 +93,29 @@ class Stream extends Model
     {
         return cache()->tags('streams')
             ->remember('top1000', now()->addMinutes(20), function () {
+                self::lastImport('cachedTop1000', true);
+
                 return Stream::query()
                     ->with('tags')
+                    ->where('updated_at', '>', now()->subMinutes(15))
                     ->orderByDesc('viewer_count')
                     ->limit(1000)
                     ->get();
             });
+    }
+
+    public static function lastImport(string $cacheName, bool $justUpdated = false): Carbon
+    {
+        $tagName = 'stream.lastImport';
+        if ($justUpdated) {
+            $now = now();
+            cache()->tags($tagName)->put($cacheName, $now);
+
+            return $now;
+        }
+
+        return cache()->tags($tagName)->rememberForever($cacheName, function () {
+            return Carbon::createFromDate(2000, 01, 01);
+        });
     }
 }

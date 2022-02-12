@@ -28,6 +28,7 @@ final class StreamsByStartTimeTable extends PowerGridComponent
     public function datasource(): ?Builder
     {
         return Stream::query()
+            ->where('updated_at', '>', Stream::lastImport('cachedTop1000'))
             ->addSelect(DB::raw('DATE_FORMAT(started_at, "%Y-%c-%e %H") as started_at_hourly'))
             ->addSelect(DB::raw('COUNT(*) as streams_count'))
             ->addSelect(DB::raw('SUM(viewer_count) as streams_sum_viewer_count'))
