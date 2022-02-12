@@ -49,13 +49,13 @@ class ImportTwitchTopLiveStreamsJob implements ShouldQueue
                     break;
                 }
             } while (Stream::query()->count() < $this->quantity && $trys++ < 15);
-
-            cache()->tags('streams')->flush();
         });
 
         $tags = Tag::query()->select(['id', 'tag_uuid'])->get();
         $tags->chunk(100)->each(function ($tagsChunk) {
             ImportTwitchTagsTranslationsJob::dispatch($tagsChunk->pluck('tag_uuid')->toArray());
         });
+
+        cache()->tags('streams')->flush();
     }
 }
