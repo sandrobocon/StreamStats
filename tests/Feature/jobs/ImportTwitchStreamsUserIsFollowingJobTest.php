@@ -14,9 +14,13 @@ class ImportTwitchStreamsUserIsFollowingJobTest extends TestCase
 {
     use RefreshDatabase;
 
-//    /** @test */
+    /** @test */
     public function it_should_import_live_streams()
     {
+        if (!env('TEST_TWITCH_TOKEN')) {
+            return;
+        }
+
         $user = User::factory()->create([
             'twitch_id'    => env('TEST_TWITCH_ID'),
             'twitch_token' => env('TEST_TWITCH_TOKEN'),

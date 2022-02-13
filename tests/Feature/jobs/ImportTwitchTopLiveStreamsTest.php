@@ -16,6 +16,10 @@ class ImportTwitchTopLiveStreamsTest extends TestCase
     /** @test */
     public function it_should_import_live_streams()
     {
+        if (!config('twitch-api.client_id')) {
+            return;
+        }
+
         $job = new ImportTwitchTopLiveStreamsJob(50);
         $job->handle();
 

@@ -16,6 +16,10 @@ class ImportTwitchTagsTranslationsJobTest extends TestCase
     /** @test */
     public function it_should_import_tag_descriptions()
     {
+        if (!config('twitch-api.client_id')) {
+            return;
+        }
+
         $validTagUuids = [
             '6f70af0e-2ac0-4939-9ec9-31a770ea1ed3',
             '9166ad14-41f1-4b04-a3b8-c8eb838c6be6',

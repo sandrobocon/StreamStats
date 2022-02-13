@@ -17,11 +17,13 @@ class ImportTwitchTopStreamsCommand extends Command
         $quantity = intval($this->option('quantity'));
 
         $this->info("Starting import $quantity Streams...");
+
         try {
             ImportTwitchTopLiveStreamsJob::dispatchSync($quantity);
             $this->info('Imported successfully');
         } catch (Exception $e) {
             $this->error('Sorry, fail on import data.');
+
             throw $e;
         }
     }
