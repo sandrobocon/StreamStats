@@ -12,6 +12,8 @@ class StreamDistanceToBeOnTopTableTest extends AbstractFeatureTest
     /** @test */
     public function it_should_have_livewire_component()
     {
+        $this->user->lastImport('followedStreams', true);
+
         $this->get(route('dashboard'))
             ->assertSeeLivewire(StreamDistanceToBeOnTopTable::class);
     }
