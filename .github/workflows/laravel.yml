@@ -57,4 +57,4 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-        run: vendor/bin/phpunit
+        run: php artisan test --parallel
