@@ -16,7 +16,9 @@ class ImportTwitchTagsTranslationsJobTest extends TestCase
     /** @test */
     public function it_should_import_tag_descriptions()
     {
+        // Can't test it in workflow without sharing sensitive data
         if (!config('twitch-api.client_id')) {
+            $this->assertTrue(true);
             return;
         }
 
